@@ -14,7 +14,7 @@ interface DashboardLayoutProps {
 const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
   return (
     <>
-      <Navbar/>
+      {/* <Navbar/> */}
      
       <Box height={70} />
       <Box sx={{ display: "flex" }}>

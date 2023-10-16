@@ -2,12 +2,12 @@
 import * as React from "react";
 import { styled, useTheme, Theme, CSSObject } from "@mui/material/styles";
 import Box from "@mui/material/Box";
-import MuiDrawer from '@mui/material/Drawer';
+import MuiDrawer from "@mui/material/Drawer";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
 import CssBaseline from "@mui/material/CssBaseline";
-import Typography from '@mui/material/Typography';
+
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -20,24 +20,6 @@ import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 import Link from "next/link";
-import ChromeReaderModeIcon from '@mui/icons-material/ChromeReaderMode'
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-
-
-import AccountCircle from '@mui/icons-material/AccountCircle';
-import Image from 'next/image';
-import Logo from '../../../public/images/footerlogo.png';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import MoreIcon from '@mui/icons-material/MoreVert';
-
-import Button from "@mui/material/Button";
-
-import SendIcon from "@mui/icons-material/Send";
-
-import Stack from '@mui/material/Stack';
-import Snackbar from '@mui/material/Snackbar';
-import MuiAlert, { AlertProps } from '@mui/material/Alert';
-import { useRouter } from "next/navigation";
 
 const drawerWidth = 240;
 
@@ -67,7 +49,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   alignItems: "center",
   justifyContent: "flex-end",
   padding: theme.spacing(0, 1),
-
+  // necessary for content to be below app bar
   ...theme.mixins.toolbar,
 }));
 
@@ -110,7 +92,7 @@ const Drawer = styled(MuiDrawer, {
   }),
 }));
 
-
+//Declairing array of objects of sidebar components
 const routeComponents: {
   name: string;
   pathname: string;
@@ -140,9 +122,6 @@ const routeComponents: {
 export default function MiniDrawer() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
-  const [snackOpen, setSnackOpen] = React.useState(false);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
-  React.useState<null | HTMLElement>(null);
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -165,7 +144,7 @@ export default function MiniDrawer() {
         }
       },
       "&:hover": {
-        //  backgroundColor: 'rgba(0,0,0,0.5)',
+        // backgroundColor: '#2599FB',
       }
 
   })
@@ -185,7 +164,7 @@ export default function MiniDrawer() {
       top: '0',
       width: '0',
       height: '100%',
-      backgroundColor: 'rgba(0,0,0,0.5)',
+      backgroundColor: '#2599FB',
       borderRadius: '0 50px 50px 0',
     },
     "&:hover::before": {
@@ -193,130 +172,31 @@ export default function MiniDrawer() {
       transition: 'width 0.2s',
     }
   })
-  const router = useRouter();
-  const handleButtonClick = () => {
-   
-    setSnackOpen(true);
-  };
-  const handleClose = () => {
-    router.push("/");
-    setSnackOpen(false);
-  };
-  const AppBar = styled(MuiAppBar, {
-    shouldForwardProp: (prop) => prop !== 'open',
-  })<AppBarProps>(({ theme, open }) => ({
-    zIndex: theme.zIndex.drawer + 1,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    ...(open && {
-      marginLeft: drawerWidth,
-      width: `calc(100% - ${drawerWidth}px)`,
-      transition: theme.transitions.create(['width', 'margin'], {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-    }),
-  }));
-  const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
-    props,
-    ref,
-  ) {
-    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-  });
 
-  const mobileMenuId = 'primary-search-account-menu-mobile';
-  const handleMobileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-    setMobileMoreAnchorEl(event.currentTarget);
-  };
-
-  
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="fixed" sx={{backgroundColor: '#dbb627'}} open={open}>
+      {/* <AppBar position="fixed" open={open}>
         <Toolbar>
           <IconButton
-            size="large"
-            edge="start"
             color="inherit"
             aria-label="open drawer"
             onClick={handleDrawerOpen}
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ display: { xs: 'none', sm: 'block' } }}
-          >
-            <Image
-              src={Logo}
-              alt="Logo"
-              width={120}
-              height={30}
-              priority
-            />
-           
-          </Typography>
-         
-          <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-           
-            <Stack spacing={2} sx={{ width: '100%' }}>
+            edge="start"
+            sx={{
+              marginRight: 5,
+              ...(open && { display: 'none' }),
+            }}
+          > */}
 
-           
-              <Button
-            variant="outlined"
-            
-            color="inherit"
-            onClick={handleButtonClick}
-          >
-           Logout
-          </Button>
-         <Snackbar open={snackOpen} autoHideDuration={6000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
-          Logout Successfully
-        </Alert>
-      </Snackbar>
-         
-          </Stack>
-          </Box>
-          <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
-            <IconButton
-              size="large"
-              aria-label="show more"
-              aria-controls={mobileMenuId}
-              aria-haspopup="true"
-              onClick={handleMobileMenuOpen}
-              color="inherit"
-            >
-              <MoreIcon />
-            </IconButton>
-          </Box>
-        </Toolbar>
-      </AppBar>
-</Box>
-      <Drawer variant="permanent" open={open} sx={{ overflowY: 'auto', "*::-webkit-scrollbar": {
-          width: "8px"
-        },
-        "*::-webkit-scrollbar-track": {
-          background: "#E4EFEF"
-        },
-        "*::-webkit-scrollbar-thumb": {
-          background: "rgba(0,0,0,0.5) ",
-          borderRadius: "2px"
-        } }}>
-      <DrawerHeader sx={{backgroundColor:"#4E4E4E", }}>
-          <Typography sx={{textAlign:"center", paddingRight:7, color:"#FFDB58"}}>ADMIN</Typography>
-          <IconButton onClick={() => setOpen(!open)} sx={{color:"#aaa"}}>
-          
+      <Drawer variant="permanent" open={open}>
+        <DrawerHeader>
+          <IconButton onClick={() => setOpen(!open)}>
+            {theme.direction === "rtl" ? (
               <ChevronRightIcon />
-          
+            ) : (
+              <ChevronLeftIcon />
+            )}
           </IconButton>
         </DrawerHeader>
         <Divider />
