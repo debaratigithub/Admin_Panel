@@ -12,16 +12,47 @@ import type { NextPage } from "next";
 //import SendIcon from "@mui/icons-material/Send";
 import SettingsIcon from '@mui/icons-material/Settings';
 import { useRouter } from "next/navigation";
+import Box from "@mui/material/Box";
 
 const AdminprofileManagemet:NextPage = ()=> {
   const router = useRouter();
+
+  const formbase = () => ({
+      input: {
+        background: '#fff',
+        boxShadow: '0 0 5px #ccc',
+        height: '35px',
+        padding: '5px 15px',
+        border: '1px solid #ccc',
+        fontSize: '13px',
+        borderRadius: '5px',
+      }
+  })
+
+  const commonbutton = () => ({
+      borderRadius: '10px',
+      backgroundColor: '#D91962!important',
+      color: '#fff',
+      fontSize: '15px',
+      lineHeight: '20px',
+      fontWeight: '500',
+      border: 'none!important',
+      textTransform: 'none',
+      padding: '10px 20px',
+      '&:hover':{
+        backgroundColor: '#000!important',
+      }
+})
+
+
   return (
+    <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
     <React.Fragment>
       <Typography variant="h4" gutterBottom>
         Admin Profile Details
       </Typography>
 
-      <Grid container spacing={3}>
+      <Grid container spacing={3} sx={formbase}>
         <Grid item xs={12} sm={6}>
           <TextField
             required
@@ -127,12 +158,14 @@ const AdminprofileManagemet:NextPage = ()=> {
               router.push("/dashboard/admin_profile_management/changepassword");
               console.log("clicked");
             }}
+            sx={commonbutton}
           >
             Change Password
           </Button>
         </Grid>
       </Grid>
     </React.Fragment>
+    </Box>
   );
 }
 export default AdminprofileManagemet

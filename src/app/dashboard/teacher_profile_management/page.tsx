@@ -114,16 +114,16 @@ const TeacherProfileManagemet: NextPage = () => {
   };
 
   return (
-    <Box>
+    <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
       {/* <Searchbox/> */}
 
       {/* <CustomizedTables/> */}
       {/* table */}
       <Typography
-        sx={{ flex: "1 1 100%" ,fontSize: "2.47rem"}}
-        variant="h6"
+        sx={{ flex: "1 1 100%", marginBottom: '10px'}}
+        variant="h4"
         id="tableTitle"
-        component="div"
+        component="h5"
       >
         Teachers List Who are Registered With Spaceship Languages
       </Typography>

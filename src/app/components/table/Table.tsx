@@ -277,7 +277,8 @@ export default function CustomizedTables(props: any) {
       padding: '10px 16px',
       fontSize: '14px',
        fontWeight: '600',
-       color: '#505050',  
+       color: '#fff',  
+       background: '#4c4c4c',
        svg: {
         opacity: '1',
        }    

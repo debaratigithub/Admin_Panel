@@ -120,7 +120,7 @@ const DashboardPage: NextPage = () => {
 
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <Box>
-          <Typography variant="h3" component="h3">
+          <Typography variant="h4" component="h4" sx={{paddingBottom: '10px'}}>
             Dashboard
           </Typography>
         </Box>
@@ -128,9 +128,9 @@ const DashboardPage: NextPage = () => {
         <Grid container spacing={2}>
           <Grid item xs={8} md={15}>
             <Stack spacing={2} direction="row">
-              <Card sx={{ maxWidth: 345, bgcolor: "green", color: "white" }}>
+              <Card sx={{ maxWidth: 345, bgcolor: "#FAD237", color: "white" }}>
                 <CardContent>
-                  <Typography gutterBottom variant="h5" component="div">
+                  <Typography gutterBottom variant="h6" component="div">
                     Total Number of students
                   </Typography>
                   <Typography variant="body2" color="white'">
@@ -138,9 +138,9 @@ const DashboardPage: NextPage = () => {
                   </Typography>
                 </CardContent>
               </Card>
-              <Card sx={{ maxWidth: 345, bgcolor: "red", color: "white" }}>
+              <Card sx={{ maxWidth: 345, bgcolor: "#2599FB", color: "white" }}>
                 <CardContent>
-                  <Typography gutterBottom variant="h5" component="div">
+                  <Typography gutterBottom variant="h6" component="div">
                     Total Number of Teacher
                   </Typography>
                   <Typography variant="body2" color="white'">
@@ -149,9 +149,9 @@ const DashboardPage: NextPage = () => {
                 </CardContent>
               </Card>
 
-              <Card sx={{ maxWidth: 345, bgcolor: "blue", color: "white" }}>
+              <Card sx={{ maxWidth: 345, bgcolor: "#D91962", color: "white" }}>
                 <CardContent>
-                  <Typography gutterBottom variant="h5" component="div">
+                  <Typography gutterBottom variant="h6" component="div">
                     Total Amount of Earning
                   </Typography>
                   <Typography variant="body2" color="white'">
