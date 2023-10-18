@@ -112,6 +112,7 @@ const TeacherProfileManagemet: NextPage = () => {
     // For example, you can make an API call with the search query.
     console.log(filteredRows, "Search result");
   };
+  
 
   return (
     <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
@@ -139,6 +140,7 @@ const TeacherProfileManagemet: NextPage = () => {
         rows={rows}
         rowsPerPageOptions={rowsPerPageOptions}
         updateEndPoint={"/update"}
+        blockbtn={true}
       />
       </Box>
      

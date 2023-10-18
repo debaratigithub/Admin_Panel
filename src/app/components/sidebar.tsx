@@ -153,7 +153,7 @@ export default function MiniDrawer() {
 
 
   const adminstyle = () => ({
-    backgroundColor: '#6a5e2e',
+    backgroundColor: '#4F4F4F',
       li: {
         display: "block", 
         color: '#fff',
@@ -254,13 +254,13 @@ export default function MiniDrawer() {
             component="div"
             sx={{ display: { xs: 'none', sm: 'block' } }}
           >
-            <Image
+            {/* <Image
               src={Logo}
               alt="Logo"
               width={120}
               height={30}
               priority
-            />
+            /> */}
            
           </Typography>
          
@@ -311,9 +311,17 @@ export default function MiniDrawer() {
           background: "rgba(0,0,0,0.5) ",
           borderRadius: "2px"
         } }}>
-      <DrawerHeader sx={{backgroundColor:"#4E4E4E", }}>
-          <Typography sx={{textAlign:"center", paddingRight:7, color:"#FFDB58"}}>ADMIN</Typography>
-          <IconButton onClick={() => setOpen(!open)} sx={{color:"#aaa"}}>
+      <DrawerHeader sx={{backgroundColor:"#dbb627", }}>
+          <Typography sx={{textAlign:"center", paddingRight:7, color:"#FFDB58"}}>
+          <Image
+              src={Logo}
+              alt="Logo"
+              width={150}
+              height={40}
+              priority
+            />
+          </Typography>
+          <IconButton onClick={() => setOpen(!open)} sx={{color:"#fff"}}>
           
               <ChevronRightIcon />
           

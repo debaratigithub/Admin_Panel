@@ -276,9 +276,9 @@ export default function CustomizedTables(props: any) {
      th: {
       padding: '10px 16px',
       fontSize: '14px',
-       fontWeight: '600',
-       color: '#fff',  
-       background: '#4c4c4c',
+       fontWeight: '500',
+       color: '#333',  
+       background: '#fff',
        svg: {
         opacity: '1',
        }    
@@ -300,10 +300,53 @@ export default function CustomizedTables(props: any) {
   })
 
 
+  const details  = () => ({
+    margin: '10px 0',
+    padding: '5px 15px',
+    backgroundColor: '#2599FB!important',
+    color: '#fff',
+    border: 'none',
+    fontSize: '13px',
+    textTransform: 'capitalize',
+    "&:hover": {
+      backgroundColor: '#edc627!important',
+      border: 'none',
+    }
+})
+
+const blocked  = () => ({
+  margin: '10px 0',
+  padding: '5px 15px',
+  backgroundColor: '#D91962!important',
+  color: '#fff',
+  border: 'none',
+  fontSize: '13px',
+  textTransform: 'capitalize',
+  "&:hover": {
+    backgroundColor: '#edc627!important',
+    border: 'none',
+  }
+})
+
+
+const checkicon  = () => ({
+  margin: '10px 0',
+  padding: '5px 15px',
+  backgroundColor: '#fff!important',
+  color: '#333  ',
+  fontSize: '13px',
+  textTransform: 'capitalize',
+  "&:hover": {
+    backgroundColor: '#edc627!important',
+    color: "#fff",
+  }
+})
+
+
 
 
   return (
-    <Box sx={{ width: "100%" }}>
+    <Box component="main" sx={{ flexGrow: 1, py: 3 }}>
       <Paper sx={maintable} >
       
         {/* <EnhancedTableToolbar numSelected={selected.length} /> */}
@@ -380,6 +423,7 @@ export default function CustomizedTables(props: any) {
                             {actionDataItem.type === "toggle" && (
                               <ToggleButton
                                 value="check"
+                                sx={checkicon}
                                 // selected={selected}
                                 // onChange={() => {
                                 //   setSelected(!selected);
@@ -400,6 +444,7 @@ export default function CustomizedTables(props: any) {
                             {/* View Details Button */}
                             {actionDataItem.type === "button" && (
                               <Button
+                              sx={actionDataItem.name== "details"? details : blocked}
                                 variant="outlined"
                                 onClick={() =>
                                   onRowClick(
