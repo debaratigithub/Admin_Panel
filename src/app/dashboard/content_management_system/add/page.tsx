@@ -17,11 +17,11 @@ const Addcontent: NextPage = () =>  {
   };
 
   return (
-    <Box>
-     <Typography variant="h3" component="h3">
+    <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+     <Typography variant="h3" component="h3" sx={{fontSize: '1.5em', fontWeight: '600', marginBottom: '10px'}}>
             Add New Content
           </Typography>
-      <CKEditorComponent initialValue={editorData} onEditorChange={handleEditorChange} 
+      <CKEditorComponent initialValue={editorData} 
       onSave={handleSave}
       />
       

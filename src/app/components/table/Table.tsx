@@ -18,7 +18,6 @@ import { useState, useMemo } from "react";
 
 //import SearchBar from "material-ui-search-bar";
 
-
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
     return -1;
@@ -31,7 +30,11 @@ function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
 
 type Order = "asc" | "desc";
 
-function getComparator<Key extends keyof any>(
+interface DataObject {
+  [key: string]: number | string;
+}
+
+function getComparator<Key extends keyof DataObject>(
   order: Order,
   orderBy: Key
 ): (
@@ -59,23 +62,21 @@ function stableSort<T>(
 }
 
 export default function CustomizedTables(props: any) {
-
   const router = useRouter();
   //console.log(props.actionData, "+++++ rows");
   const [order, setOrder] = useState<Order>("asc");
-  const [orderBy, setOrderBy] = useState<any>("calories");
+  const [orderBy, setOrderBy] = useState<string | number>("calories");
   const [selected, setSelected] = useState<readonly string[]>([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [isToggled, setIsToggled] = useState(false);
- 
 
   var rows = props.rows;
   // Extract the valid keys from arrayB
   let allowedKeys =
     props.headCells &&
     props.headCells.length > 0 &&
-    props.headCells.map((item: { id: any }) => item.id);
+    props.headCells.map((item: { id: number }) => item.id);
   // Filter out the properties that don't exist in arrayB
   rows = rows.map((item: any) => {
     let filteredItem: any = {};
@@ -89,28 +90,9 @@ export default function CustomizedTables(props: any) {
     return filteredItem;
   });
 
-  //performing search
-  //console.log(rows,"++++++++++++")
-  // const [searchrows, setSeachrows] = useState(rows);
-  // const [searched, setSearched] = useState("");
-  // const requestSearch = (searchedVal:any) => {
-  //   const filteredRows = rows.filter((row:any) => {
-  //     return row.name.toLowerCase().includes(searchedVal.toLowerCase());
-  //   });
-  //   setSeachrows(filteredRows);
-  // };
-
-  
-  // const cancelSearch = () => {
-  //   setSearched("");
-  //   requestSearch(searched);
-  // };
-
-
-
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
-    property: any
+    property: string
   ) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
@@ -128,8 +110,8 @@ export default function CustomizedTables(props: any) {
   const onRowClick = (
     row: any,
     actionDataItem: any,
-    type: any,
-    designation: any
+    type: string,
+    designation: string
   ) => {
     // console.log(
     //   row, 'row',
@@ -154,7 +136,7 @@ export default function CustomizedTables(props: any) {
         //   // }
         //   setIsToggled(!isToggled);
         //   console.log(row.status == "Active" ? "In-Active" : "Active", "++++++++++++");
-         
+
         // }
         //console.log(row.status, "++++++++++++",isToggled);
         // For other items, return them unchanged
@@ -196,14 +178,12 @@ export default function CustomizedTables(props: any) {
       router.push(`/dashboard/blog_module_management/edit/${queryString}`);
     }
 
-
-    
-     //console.log(row, '+++++')
+    //console.log(row, '+++++')
   };
 
   //For selection single id from table, Only name is selected here for now
   const handleClick = (event: React.MouseEvent<unknown>, name: string) => {
-      console.log("object+++++++++++++",event);
+    console.log("object+++++++++++++", event);
     const selectedIndex = selected.indexOf(name);
     let newSelected: readonly string[] = [];
 
@@ -250,107 +230,100 @@ export default function CustomizedTables(props: any) {
         page * rowsPerPage,
         page * rowsPerPage + rowsPerPage
       ),
-    [order, orderBy, page, rowsPerPage]
+    [rows, order, orderBy, page, rowsPerPage]
   );
   //console.log(visibleRows, "++");
   // console.log(props.headCells, "---");
 
   const maintable = () => ({
-      backgroundColor: '#eee',
-      border: '1px solid #ccc',
-  })
+    backgroundColor: "#eee",
+    border: "1px solid #ccc",
+  });
 
   const customtable = () => ({
     minWidth: 750,
-    backgroundColor: '#fff',
-     td: {
-       padding: '10px 16px',
-       fontSize: '13px',
-       fontWeight: '500',
-       color: '#858585',
-       textAlign: 'center',
-       "&:last-child": {
-        textAlign: 'right',
-      }
-     },
-     th: {
-      padding: '10px 16px',
-      fontSize: '14px',
-       fontWeight: '500',
-       color: '#333',  
-       background: '#fff',
-       svg: {
-        opacity: '1',
-       }    
-    }
-      // li: {
-      //   display: "block", 
-      //   color: '#fff',
-      //   span: {
-      //     fontSize: '15px',
-      //   },        
-      //   svg: {
-      //     color: '#fff',
-      //   }
-      // },
-      // "&:hover": {
-      //   backgroundColor: '#2599FB',
-      // }
+    backgroundColor: "#fff",
+    td: {
+      padding: "10px 16px",
+      fontSize: "13px",
+      fontWeight: "500",
+      color: "#858585",
+      textAlign: "center",
+      "&:last-child": {
+        textAlign: "right",
+      },
+    },
+    th: {
+      padding: "10px 16px",
+      fontSize: "14px",
+      fontWeight: "500",
+      color: "#333",
+      background: "#fff",
+      svg: {
+        opacity: "1",
+      },
+    },
+    // li: {
+    //   display: "block",
+    //   color: '#fff',
+    //   span: {
+    //     fontSize: '15px',
+    //   },
+    //   svg: {
+    //     color: '#fff',
+    //   }
+    // },
+    // "&:hover": {
+    //   backgroundColor: '#2599FB',
+    // }
+  });
 
-  })
-
-
-  const details  = () => ({
-    margin: '10px 0',
-    padding: '5px 15px',
-    backgroundColor: '#2599FB!important',
-    color: '#fff',
-    border: 'none',
-    fontSize: '13px',
-    textTransform: 'capitalize',
-    "&:hover": {
-      backgroundColor: '#edc627!important',
-      border: 'none',
-    }
-})
-
-const blocked  = () => ({
-  margin: '10px 0',
-  padding: '5px 15px',
-  backgroundColor: '#D91962!important',
-  color: '#fff',
-  border: 'none',
-  fontSize: '13px',
-  textTransform: 'capitalize',
-  "&:hover": {
-    backgroundColor: '#edc627!important',
-    border: 'none',
-  }
-})
-
-
-const checkicon  = () => ({
-  margin: '10px 0',
-  padding: '5px 15px',
-  backgroundColor: '#fff!important',
-  color: '#333  ',
-  fontSize: '13px',
-  textTransform: 'capitalize',
-  "&:hover": {
-    backgroundColor: '#edc627!important',
+  const details = () => ({
+    margin: "10px 0",
+    padding: "5px 15px",
+    backgroundColor: "#2599FB!important",
     color: "#fff",
-  }
-})
+    border: "none",
+    fontSize: "13px",
+    textTransform: "capitalize",
+    "&:hover": {
+      backgroundColor: "#edc627!important",
+      border: "none",
+    },
+  });
 
+  const blocked = () => ({
+    margin: "10px 0",
+    padding: "5px 15px",
+    backgroundColor: "#D91962!important",
+    color: "#fff",
+    border: "none",
+    fontSize: "13px",
+    textTransform: "capitalize",
+    "&:hover": {
+      backgroundColor: "#edc627!important",
+      border: "none",
+    },
+  });
 
-
+  const checkicon = () => ({
+    margin: "10px 0",
+    padding: "5px 15px",
+    backgroundColor: "#fff!important",
+    color: "#333  ",
+    fontSize: "13px",
+    textTransform: "capitalize",
+    "&:hover": {
+      backgroundColor: "#edc627!important",
+      color: "#fff",
+    },
+  });
 
   return (
     <Box component="main" sx={{ flexGrow: 1, py: 3 }}>
-      <Paper sx={maintable} >
-      
+      <Paper sx={maintable}>
         {/* <EnhancedTableToolbar numSelected={selected.length} /> */}
-      
+
         <TableContainer>
           <Table sx={customtable} aria-labelledby="tableTitle">
             {/* header section start*/}
@@ -444,7 +417,11 @@ const checkicon  = () => ({
                             {/* View Details Button */}
                             {actionDataItem.type === "button" && (
                               <Button
-                              sx={actionDataItem.name== "details"? details : blocked}
+                                sx={
+                                  actionDataItem.name == "details"
+                                    ? details
+                                    : blocked
+                                }
                                 variant="outlined"
                                 onClick={() =>
                                   onRowClick(

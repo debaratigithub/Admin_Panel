@@ -107,12 +107,12 @@ export default function Changepassword() {
               id="newpassword"
               autoComplete="new-password"
             />
-           
-           <Stack spacing={2}>
+           <Box sx={{mt:4}}/>
+           <Stack spacing={2} sx={{mt:4}}>
             <Button
               type="submit"
               fullWidth
-              variant="outlined"
+              // variant="outlined"
               sx={{ mt: 3, mb: 2 }}
             >
               Submit

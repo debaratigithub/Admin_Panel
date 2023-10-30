@@ -29,13 +29,24 @@
 //   );
 // }
 
-'use client'
+"use client";
 import React from "react";
 import { Chart } from "react-google-charts";
 
+type DataRow = [string, string] | [string, number];
+interface DataOptions {
+  legend: "none" | "left" | "top" | "right" | "bottom" | "center";
+  pieSliceText: "none" | "label" | "percentage" | "value";
+  title: string;
+  pieStartAngle: number;
+}
 
+interface PiechartProps {
+  data: DataRow[];
+  options: DataOptions;
+}
 
-export default function Piechart(props:any) {
+export default function Piechart(props: PiechartProps) {
   return (
     <Chart
       chartType="PieChart"

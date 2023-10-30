@@ -137,6 +137,7 @@ export default function Navbar() {
   const handleMenuClose = () => {
     setAnchorEl(null);
     handleMobileMenuClose();
+   
   };
 
   const handleMobileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {

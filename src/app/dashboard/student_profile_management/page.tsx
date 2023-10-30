@@ -7,7 +7,14 @@ import SearchBox from "@/app/components/searchbox";
 import { useState } from "react";
 
 const StudentProfileManagemet: NextPage = () => {
-  const headCells: any = [
+  //Ading Interface and decareling types for table header
+  interface HeadCell {
+    id: string;
+    numeric: boolean;
+    disablePadding: boolean;
+    label: string;
+  }
+  const headCells: HeadCell[] = [
     {
       id: "name",
       numeric: false,
@@ -34,7 +41,15 @@ const StudentProfileManagemet: NextPage = () => {
       label: "Status Of Application",
     },
   ];
-  const rows: any = [
+
+   //Ading Interface and decareling types for table rows
+   interface Row {
+    name: string;
+    email: string;
+    phone: number;
+    status:string
+  }
+  const rows: Row[] =  [
     {
       name: "Riya Saha",
       email: "riyya@gmail.com",
@@ -50,7 +65,18 @@ const StudentProfileManagemet: NextPage = () => {
       //status:1
     },
   ];
-  const actionData = [
+
+   //For Action section
+
+   interface ActionData {
+    name: string;
+    type: "button" | "toggle";
+    icon: string;
+    path: string;
+    params: string;
+    designation: string;
+  }
+  const actionData : ActionData[] = [
     {
       name: "details",
       type: "button",
@@ -59,7 +85,14 @@ const StudentProfileManagemet: NextPage = () => {
       params: "name",
       designation: "student",
     },
-    { name: "toggle", type: "toggle", icon: "", path: "", params: "" },
+    {
+      name: "toggle",
+      type: "toggle",
+      icon: "",
+      path: "",
+      params: "",
+      designation: "",
+    },
     {
       name: "block",
       type: "button",
@@ -71,14 +104,16 @@ const StudentProfileManagemet: NextPage = () => {
     },
   ];
   // const statusData = [{1:'Active', 0:'In-Active'}]
-  const rowsPerPageOptions: any = [5, 10, 25];
+  const rowsPerPageOptions: number[] = [5, 10, 25];
 
   //Searchbox
   //console.log(rows,"Row data student")
   const [searchQuery, setSearchQuery] = useState<string>("");
+  
+  
   const handleSearch = (query: string) => {
     setSearchQuery(query);
-    const filteredRows = rows.filter((row: any) => {
+    const filteredRows = rows.filter((row: Row) => {
       return row.name.toLowerCase().includes(query.toLowerCase());
     });
     // You can perform search-related operations here using the query.
@@ -87,9 +122,9 @@ const StudentProfileManagemet: NextPage = () => {
   };
 
   return (
-    <Box>
+    <Box component="main" sx={{ flexGrow: 1, p: 3 }}> 
       <Typography
-        sx={{ flex: "1 1 100%", fontSize: "2.5rem" }}
+        sx={{ flex: "1 1 100%", fontSize: "1.5rem", fontWeight: '600' }}
         variant="h6"
         id="tableTitle"
         component="div"
@@ -99,8 +134,8 @@ const StudentProfileManagemet: NextPage = () => {
 
 {/* searchbox */}
       <Box>
-        <Typography>Search Student</Typography>
-        <SearchBox onSearch={handleSearch} />
+        {/* <Typography>Search Student</Typography> */}
+        <SearchBox onSearch={handleSearch} placeHolder="Search Students ..."/>
         {/* <Typography>Search Query: {searchQuery}</Typography> */}
       </Box>
       {/* <CustomizedTables/> */}

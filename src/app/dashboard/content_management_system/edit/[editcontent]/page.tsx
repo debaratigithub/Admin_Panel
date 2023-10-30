@@ -4,17 +4,38 @@ import CKEditorComponent from "@/app/components/ckeditor/page";
 import React, { useState } from "react";
 import { Box, Typography } from "@mui/material";
 
-const Editcontent: NextPage = (params: any) => {
-  const EditData: any = JSON.parse(
-    decodeURIComponent(params.params.editcontent)
-  );
+interface Editcontent {
+  contentname: string;
+  contentdetails: string;
+  
+}
+
+interface RouteParams {
+  params: {
+    editcontent: string; // It's a string because it's URL-encoded JSON
+  };
+  searchParams: {};
+}
+
+//previouly done with any type
+// const Editcontent: NextPage = (params: any) => {
+//   const EditData: any = JSON.parse(
+//     decodeURIComponent(params.params.editcontent)
+//   );
   // console.log(
   //   JSON.parse(decodeURIComponent(params.params.editcontent)),
   //   "++++++++++++"
   // );
 
+
+  const Editcontent: NextPage<RouteParams> = ({ params }) => {
+    const EditData: Editcontent = JSON.parse(
+      decodeURIComponent(params.editcontent)
+    );
+
+
   const [editorData, setEditorData] = useState(EditData.contentdetails);
-  console.log(editorData,"KKKKKKKKKK")
+  //console.log(editorData,"KKKKKKKKKK")
 
   const handleEditorChange = (data: string) => {
     setEditorData(data);
@@ -26,13 +47,13 @@ const Editcontent: NextPage = (params: any) => {
   };
 
   return (
-    <Box>
-       <Typography variant="h3" component="h3">
+    <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+       <Typography variant="h3" component="h3" sx={{fontSize: '1.5em', fontWeight: '600', marginBottom: '10px'}}>
             Edit New Content of {EditData.contentname}
           </Typography>
       <CKEditorComponent
         initialValue={editorData}
-        onEditorChange={handleEditorChange}
+        //onEditorChange={handleEditorChange}
         onSave={handleSave}
       />
       

@@ -1,12 +1,3 @@
-// import type { NextPage } from "next";
-
-// const BlogModuleManagement : NextPage =()=>{
-//     return <div>
-//         <h1 className="text-4xl font-bold">BlogModuleManagement is coming soon</h1>
-//         </div>
-// }
-
-// export default BlogModuleManagement
 
 'use client'
 import CustomizedTables from "@/app/components/table/Table";
@@ -18,9 +9,30 @@ import Button from "@mui/material/Button";
 import AddIcon from '@mui/icons-material/Add';
 import { useRouter } from "next/navigation";
 
+const commonButton  = () => ({
+  margin: '2px 0',
+  padding: '5px 15px',
+  backgroundColor: '#51414F!important',
+  color: '#fff',
+  border: 'none',
+  fontSize: '16px',
+  textTransform: 'capitalize',
+  "&:hover": {
+    backgroundColor: '#722F37!important',
+    border: 'none',
+  }
+})
+
 const BlogModuleManagement: NextPage = () => {
   const router = useRouter();
-  const headCells: any = [
+   //Ading Interface and decareling types for table header
+   interface HeadCell {
+    id: string;
+    numeric: boolean;
+    disablePadding: boolean;
+    label: string;
+  }
+  const headCells: HeadCell[] =  [
     {
       id: "blogname",
       numeric: false,
@@ -40,7 +52,14 @@ const BlogModuleManagement: NextPage = () => {
       label: "Blog Details",
     },
   ];
-  const rows: any = [
+
+   //Ading Interface and decareling types for table rows
+   interface Row {
+    blogname:string;
+    blogdetails: string;
+   
+  }
+  const rows: Row[] = [
     {
         blogname: "Talk in French",
         //blogauthorname:"William Alexander",
@@ -55,7 +74,18 @@ const BlogModuleManagement: NextPage = () => {
     },
     
   ];
-  const actionData = [
+
+   //For Action section
+
+   interface ActionData {
+    name: string;
+    type: "button" | "toggle";
+    icon: string;
+    path: string;
+    params: string;
+    designation: string;
+  }
+  const actionData : ActionData[] =  [
    
     {
       name: "edit",
@@ -68,11 +98,11 @@ const BlogModuleManagement: NextPage = () => {
  
   ];
   // const statusData = [{1:'Active', 0:'In-Active'}]
-  const rowsPerPageOptions: any = [5, 10, 25];
+  const rowsPerPageOptions: number[] = [5, 10, 25];
   return (
-    <Box>
+    <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
       <Typography
-        sx={{ flex: "1 1 100%" }}
+        sx={{ flex: "1 1 100%", fontSize: "1.5rem", width: "800px", marginBottom: '10px' }}
         variant="h6"
         id="tableTitle"
         component="div"
@@ -81,7 +111,8 @@ const BlogModuleManagement: NextPage = () => {
       </Typography>
 
       <Button
-            variant="outlined"
+            // variant="outlined"
+            sx={commonButton}
             endIcon={<AddIcon />}
             onClick={() => {
               router.push("/dashboard/blog_module_management/add");

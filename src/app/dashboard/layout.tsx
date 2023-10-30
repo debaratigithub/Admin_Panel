@@ -1,10 +1,9 @@
-'use client'
+
 import React from "react";
 import Link from "next/link";
-import Sidenav from "../components/sidebar";
+import MiniDrawer from "../components/sidebar";
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Navbar from "../components/navbar";
+
 
 
 
@@ -18,9 +17,9 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
      
       <Box height={70} />
       <Box sx={{ display: "flex" }}>
-        <Sidenav />
+        <MiniDrawer/>
 
-        <Box>{props.children}</Box>
+        <Box sx={{flex: 1}}>{props.children}</Box>
 
       </Box>
     </>

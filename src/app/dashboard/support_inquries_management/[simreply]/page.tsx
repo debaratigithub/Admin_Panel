@@ -7,12 +7,46 @@ import AlertTitle from "@mui/material/AlertTitle";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 
-const Simreply: NextPage = (params: any) => {
-  const SimData: any = JSON.parse(decodeURIComponent(params.params.simreply));
-  //   console.log(
-  //     JSON.parse(decodeURIComponent(params.params.simreply)),
-  //     "++++++++++++",SimData
-  //   );
+interface Simreply {
+  date: string;
+  name: string;
+  designation: string;
+  email: string;
+  message: string;
+}
+
+interface RouteParams {
+  params: {
+    simreply: string; // It's a string because it's URL-encoded JSON
+  };
+  searchParams: {};
+}
+
+const commonButton  = () => ({  borderColor: "#1976d2",
+color: "#1976d2",
+border: "0.5px solid ",
+width:"15%",
+alignSelf:"center",
+margin:"auto",
+"&:hover": {
+  color: "#fff",
+  // border: "none",
+  // mt:"2px"
+}
+})
+
+//previouly done with any type
+// const Simreply: NextPage = (params: any) => {
+//   const SimData: any = JSON.parse(decodeURIComponent(params.params.simreply));
+//   //   console.log(
+//   //     JSON.parse(decodeURIComponent(params.params.simreply)),
+//   //     "++++++++++++",SimData
+//   //   );
+
+const Simreply: NextPage<RouteParams> = ({ params }) => {
+  const SimData: Simreply = JSON.parse(
+    decodeURIComponent(params.simreply)
+  );
 
   const [open, setOpen] = useState(false);
 
@@ -34,9 +68,9 @@ const Simreply: NextPage = (params: any) => {
   };
 
   return (
-    <Box>
-      <Typography>Question:{SimData.message}</Typography>
-      <Typography>Answer:</Typography>
+    <Box sx={{padding:3}}>
+      <Typography variant="h5" sx={{mt:3}}>Question: {SimData.message}</Typography>
+      <Typography  sx={{mt: 1 }}>Answer:</Typography>
       <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
         {/* <TextField
               margin="normal"
@@ -48,24 +82,35 @@ const Simreply: NextPage = (params: any) => {
               autoComplete="email"
               autoFocus
             /> */}
-        <TextField
-          margin="normal"
-          required
-          fullWidth
-          name="replyanswer"
-          label="Type Your Answer Here"
-          type="text"
-          id="replyanswer"
-          autoComplete="replyanswer"
-        />
+      <TextField
+  margin="normal"
+  required
+  fullWidth
+  name="replyanswer"
+  placeholder="Type Your Answer Here"
+  type="text"
+  id="outlined-multiline-static"
+  autoComplete="replyanswer"
+  variant="outlined"
+  // rows={6}
+  multiline
+            sx={{mb:5}}
+  inputProps={{
+    style: {
+      minHeight: "250px",
+      
+    
+    
+    },
+}}
+/>
 
         <Stack spacing={2}>
-          <Button
-            type="submit"
-            fullWidth
-            variant="outlined"
-            sx={{ mt: 3, mb: 2 }}
-          >
+        <Button
+                  size="small"
+                  variant="contained"
+                  sx={commonButton}
+                >
             Submit
           </Button>
           {open && (

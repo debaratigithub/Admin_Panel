@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import type { NextPage } from "next";
 import Box from "@mui/material/Box";
 import CustomizedTables from "@/app/components/table/Table";
@@ -9,7 +9,15 @@ import SearchBox from "@/app/components/searchbox";
 import { useState } from "react";
 
 const TeacherProfileManagemet: NextPage = () => {
-  const headCells: any = [
+  //Ading Interface and decareling types for table header
+  interface HeadCell {
+    id: string;
+    numeric: boolean;
+    disablePadding: boolean;
+    label: string;
+  }
+
+  const headCells: HeadCell[] = [
     {
       id: "name",
       numeric: false,
@@ -36,7 +44,16 @@ const TeacherProfileManagemet: NextPage = () => {
       label: "Status Of Application",
     },
   ];
-  const rows: any = [
+
+  //Ading Interface and decareling types for table rows
+  interface Row {
+    name: string;
+    email: string;
+    phone: number;
+    status: string;
+  }
+
+  const rows: Row[] = [
     {
       name: "Debarati Patwari",
       email: "deba@gmail.com",
@@ -74,76 +91,118 @@ const TeacherProfileManagemet: NextPage = () => {
       status: "Active",
     },
   ];
-  const actionData = [
+
+  //For Action section
+
+  interface ActionData {
+    name: string;
+    type: "button" | "toggle";
+    icon: string;
+    path: string;
+    params: string;
+    designation: string;
+  }
+  
+  const actionData: ActionData[] = [
     {
       name: "details",
       type: "button",
       icon: "",
       path: "/details",
       params: "name",
-      designation:"teacher"
+      designation: "teacher",
     },
-    { name: "toggle", type: "toggle", icon: "", path: "", params: "" },
+    {
+      name: "toggle",
+      type: "toggle",
+      icon: "",
+      path: "",
+      params: "",
+      designation: "",
+    },
     {
       name: "block",
       type: "button",
       icon: "",
       path: "/block",
       params: "name",
-      designation:""
-     
+      designation: "",
     },
   ];
+  
 
- 
+  // const actionData = [
+  //   {
+  //     name: "details",
+  //     type: "button",
+  //     icon: "",
+  //     path: "/details",
+  //     params: "name",
+  //     designation: "teacher",
+  //   },
+  //   { name: "toggle", type: "toggle", icon: "", path: "", params: "" },
+  //   {
+  //     name: "block",
+  //     type: "button",
+  //     icon: "",
+  //     path: "/block",
+  //     params: "name",
+  //     designation: "",
+  //   },
+  // ];
 
   const heading = "Teacher";
   // const statusData = [{1:'Active', 0:'In-Active'}]
-  const rowsPerPageOptions: any = [5, 10, 25];
+  const rowsPerPageOptions: number[] = [5, 10, 25];
 
-//Searchbox
+  //Searchbox
   const [searchQuery, setSearchQuery] = useState<string>("");
   const handleSearch = (query: string) => {
     setSearchQuery(query);
-    const filteredRows = rows.filter((row: any) => {
+    const filteredRows = rows.filter((row: Row) => {
       return row.name.toLowerCase().includes(query.toLowerCase());
     });
     // You can perform search-related operations here using the query.
     // For example, you can make an API call with the search query.
     console.log(filteredRows, "Search result");
   };
-  
 
   return (
-    <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+    // <Box>
+      <Box component="main" sx={{ flexGrow: 1, p: 3 }}> 
       {/* <Searchbox/> */}
 
       {/* <CustomizedTables/> */}
       {/* table */}
-      <Typography
-        sx={{ flex: "1 1 100%", marginBottom: '10px'}}
+      {/* <Typography
+        sx={{ flex: "1 1 100%", marginBottom: "10px" }}
         variant="h4"
         id="tableTitle"
         component="h5"
+      > */}
+       <Typography
+        sx={{ flex: "1 1 100%", fontSize: "1.5rem", fontWeight: '600' }}
+        variant="h6"
+        id="tableTitle"
+        component="div"
       >
         Teachers List Who are Registered With Spaceship Languages
       </Typography>
       <Box>
-        <Typography>Search Teacher</Typography>
-        <SearchBox onSearch={handleSearch} />
+        {/* <Typography>Search Teacher</Typography> */}
+        <SearchBox onSearch={handleSearch} placeHolder="Search Teachers...."/>
         {/* <Typography>Search Query: {searchQuery}</Typography> */}
       </Box>
       <Box>
-      <CustomizedTables
-        actionData={actionData}
-        headCells={headCells}
-        rows={rows}
-        rowsPerPageOptions={rowsPerPageOptions}
-        updateEndPoint={"/update"}
-        blockbtn={true}
-      />
+        <CustomizedTables
+          actionData={actionData}
+          headCells={headCells}
+          rows={rows}
+          rowsPerPageOptions={rowsPerPageOptions}
+          updateEndPoint={"/update"}
+          blockbtn={true}
+        />
       </Box>
-     
     </Box>
   );
 };

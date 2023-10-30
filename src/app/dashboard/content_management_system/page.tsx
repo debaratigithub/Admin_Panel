@@ -8,9 +8,31 @@ import Button from "@mui/material/Button";
 import AddIcon from '@mui/icons-material/Add';
 import { useRouter } from "next/navigation";
 
+const commonButton  = () => ({
+  margin: '2px 0',
+  padding: '5px 15px',
+  backgroundColor: '#722F37!important',
+  color: '#fff',
+  border: 'none',
+  fontSize: '16px',
+  textTransform: 'capitalize',
+  "&:hover": {
+    backgroundColor: '#51414F!important',
+    border: 'none',
+  }
+})
+
 const ContentManagementSystem: NextPage = () => {
   const router = useRouter();
-  const headCells: any = [
+
+   //Ading Interface and decareling types for table header
+   interface HeadCell {
+    id: string;
+    numeric: boolean;
+    disablePadding: boolean;
+    label: string;
+  }
+  const headCells: HeadCell[] = [
     {
       id: "contentname",
       numeric: false,
@@ -24,7 +46,13 @@ const ContentManagementSystem: NextPage = () => {
       label: "Content Details",
     },
   ];
-  const rows: any = [
+   //Ading Interface and decareling types for table rows
+   interface Row {
+    contentname: string;
+    contentdetails: string;
+    
+  }
+  const rows: Row[] = [
     {
       contentname: "About us",
       contentdetails:
@@ -46,7 +74,19 @@ const ContentManagementSystem: NextPage = () => {
         "A testimonial is a statement from a past customer that describes how a product or service helped them. Testimonials are often written by the business based on specific questions they ask satisfied customers. They usually show impact through before-and-after comparisons or provide specific improvement statistics.",
     },
   ];
-  const actionData = [
+
+
+  //For Action section
+
+  interface ActionData {
+    name: string;
+    type: "button" | "toggle";
+    icon: string;
+    path: string;
+    params: string;
+    designation: string;
+  }
+  const actionData : ActionData[] = [
    
     {
       name: "edit",
@@ -59,11 +99,11 @@ const ContentManagementSystem: NextPage = () => {
  
   ];
   // const statusData = [{1:'Active', 0:'In-Active'}]
-  const rowsPerPageOptions: any = [5, 10, 25];
+  const rowsPerPageOptions: number[] = [5, 10, 25];
   return (
-    <Box>
+    <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
       <Typography
-        sx={{ flex: "1 1 100%" }}
+        sx={{ flex: "1 1 100%",fontSize: "1.5rem", fontWeight: '600', marginBottom: '10px' }}
         variant="h6"
         id="tableTitle"
         component="div"
@@ -72,7 +112,8 @@ const ContentManagementSystem: NextPage = () => {
       </Typography>
 
       <Button
-            variant="outlined"
+            // variant=""
+            sx={commonButton}
             endIcon={<AddIcon />}
             onClick={() => {
               router.push("/dashboard/content_management_system/add");
