@@ -51,6 +51,7 @@ import ReceiptLongRoundedIcon from "@mui/icons-material/ReceiptLongRounded";
 import TextSnippetRoundedIcon from "@mui/icons-material/TextSnippetRounded";
 import SupportAgentRoundedIcon from "@mui/icons-material/SupportAgentRounded";
 import WarningRoundedIcon from "@mui/icons-material/WarningRounded";
+import Linkbutton from "./linkcomponent/page";
 
 const drawerWidth = 240;
 
@@ -440,6 +441,13 @@ export default function MiniDrawer() {
           sx={adminstyle}
         >
           {/* <Link href={"/dashboard"}> */}
+         
+
+          {/* sending props to make serverside rendering demo to linkcomponent */}
+          {/* <Link href={"/dashboard/admin_profile_management"}>
+          <Linkbutton title={"Click Me"}/>
+          </Link> */}
+
           <ListItem disablePadding sx={{ display: "block" }}>
             <ListItemButton
               onClick={() => {

@@ -18,6 +18,7 @@ import Image from "next/image";
 //import { useRouter } from "next/navigation";
 
 import CardHeader from "@mui/material/CardHeader";
+import Link from "next/link";
 
 const DashboardPage: NextPage = () => {
  // const router = useRouter();
@@ -205,6 +206,7 @@ const DashboardPage: NextPage = () => {
                 >
                   200
                 </Typography>
+                <Link href="/dashboard/teacher_profile_management">
                 <Button
                   size="small"
                   variant="contained"
@@ -221,6 +223,7 @@ const DashboardPage: NextPage = () => {
                 >
                   View Details
                 </Button>
+                </Link>
                 {/* <TriangleImg alt='triangle background' src={`/images/misc/${imageSrc}`} /> */}
                 <Image
                   alt="trophy"
@@ -262,6 +265,7 @@ const DashboardPage: NextPage = () => {
                 >
                   1000
                 </Typography>
+                <Link href="/dashboard/student_profile_management">
                 <Button
                   size="small"
                   variant="contained"
@@ -278,6 +282,7 @@ const DashboardPage: NextPage = () => {
                 >
                   View Details
                 </Button>
+                </Link>
                 {/* <TriangleImg alt='triangle background' src={`/images/misc/${imageSrc}`} /> */}
                 <Image
                   alt="trophy"
@@ -318,6 +323,7 @@ const DashboardPage: NextPage = () => {
                 >
                   $242.8k
                 </Typography>
+                <Link href="/dashboard/revenue_history">
                 <Button
                   size="small"
                   variant="contained"
@@ -334,6 +340,7 @@ const DashboardPage: NextPage = () => {
                 >
                   View Details
                 </Button>
+                </Link>
                 {/* <TriangleImg alt='triangle background' src={`/images/misc/${imageSrc}`} /> */}
                 <Image
                   alt="trophy"
