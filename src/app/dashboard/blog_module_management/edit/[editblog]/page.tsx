@@ -1,8 +1,13 @@
 "use client";
 import type { NextPage } from "next";
-import CKEditorComponent from "@/app/components/ckeditor/page";
+//import CKEditorComponent from "@/app/components/ckeditor/page";
 import React, { useState } from "react";
 import { Box, Typography } from "@mui/material";
+import dynamic from 'next/dynamic';
+
+const CKEditorComponent = dynamic(() => import('../../../../components/ckeditor/ck'), {
+  ssr: false,
+});
 
 interface Editblog {
   blogname:string;

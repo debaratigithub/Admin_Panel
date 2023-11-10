@@ -9,7 +9,7 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
-import VideoPlayer from "@/app/components/videoplayer/page";
+import VideoPlayer from "@/app/components/videoplayer/videoplayer";
 import Box from "@mui/material/Box";
 
 import PropTypes from "prop-types";

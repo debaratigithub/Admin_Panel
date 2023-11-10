@@ -1,9 +1,14 @@
 'use client'
 
-import CKEditorComponent from '@/app/components/ckeditor/page';
+//import CKEditorComponent from '@/app/components/ckeditor/page';
 import React, { useState } from 'react';
 import type { NextPage } from "next";
 import { Box, Typography } from '@mui/material';
+import dynamic from 'next/dynamic';
+
+const CKEditorComponent = dynamic(() => import('../../../components/ckeditor/ck'), {
+  ssr: false,
+});
 
 const Addcontent: NextPage = () =>  {
   const [editorData, setEditorData] = useState<string>('');

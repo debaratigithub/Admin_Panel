@@ -51,7 +51,7 @@ import ReceiptLongRoundedIcon from "@mui/icons-material/ReceiptLongRounded";
 import TextSnippetRoundedIcon from "@mui/icons-material/TextSnippetRounded";
 import SupportAgentRoundedIcon from "@mui/icons-material/SupportAgentRounded";
 import WarningRoundedIcon from "@mui/icons-material/WarningRounded";
-import Linkbutton from "./linkcomponent/page";
+import Linkbutton from "./linkcomponent/linkcomponent";
 
 const drawerWidth = 240;
 
