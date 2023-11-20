@@ -429,17 +429,10 @@ export default function CustomizedTables(props: any) {
                         onClick={(event) => handleClick(event, row.name)}
                       />
                     </TableCell> */}
-                    {Object.keys(row).map((keys: any, objIndex) =>
+                    {Object.keys(row)?.map((keys: any, objIndex) =>
                       keys=== "id" ?   
-                      <TableCell
-                      // align="right"
-                      // key={`objIndex-${objIndex}`}
-                      // onClick={(event) => handleClick(event, row.name)}
-                      sx={{width:0}}
-                    >
-                      
-                      {/* {row[keys]} */}
-                    </TableCell> : objIndex == 0 ? (
+                     null
+                     : objIndex == 0 ? (
                         <TableCell
                           key={`objIndex-${objIndex}`}
                           component="th"
