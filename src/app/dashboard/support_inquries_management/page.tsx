@@ -1,10 +1,28 @@
+'use client'
 import CustomizedTables from "@/app/components/table/Table";
 import { Box } from "@mui/material";
 import type { NextPage } from "next";
 import Typography from "@mui/material/Typography";
 
+import { useEffect, useState } from "react";
+import { RootState} from '../../../reduxts/store'
+import {useAppDispatch, useAppSelector} from '../../../reduxts/hooks'
+import {fetchAllSimData} from '../../../reduxts/Slices/simSlice/getallsim'
+
 const SupportInquiresManagement: NextPage = () => {
   //Ading Interface and decareling types for table header
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    // Dispatch the fetchSomeDataAsync action when the component mounts
+    dispatch(fetchAllSimData());
+   
+  }, [dispatch]);
+
+  const apiuserdata = useAppSelector((state: RootState) =>state.all_simData.data);
+  console.log(apiuserdata,"+++++SIM DATA GET++++++")
+
   interface HeadCell {
     id: string;
     numeric: boolean;

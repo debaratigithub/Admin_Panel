@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Paper,
@@ -30,11 +30,25 @@ const VerifyForgetPassword: React.FC = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
 
+  const [adminemail, setAdminemail] = useState<any>("")
   const [formData, setFormData] = useState<FormData>({
-    email: 'debarati.patwari@brainiuminfotech.com',
+    //email: 'debarati.patwari@brainiuminfotech.com',
+    email:'',
     role: 'admin',
     otp: ''
   });
+
+  useEffect(() => {
+    setAdminemail(localStorage.getItem("AdminEmail"))
+    setFormData({
+    email:adminemail,
+    role: 'admin',
+    otp: ''
+    })
+    
+  }, [adminemail])
+
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     // router.push("/dashboard");

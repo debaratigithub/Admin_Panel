@@ -15,8 +15,15 @@ import CheckIcon from "@mui/icons-material/Check";
 import Button from "@mui/material/Button";
 import { useRouter } from "next/navigation";
 import { useState, useMemo } from "react";
-
+import { TableSortLabel } from '@mui/material';
 //import SearchBar from "material-ui-search-bar";
+//Redux Toolkit
+import { RootState} from '../../../reduxts/store'
+import {useAppDispatch, useAppSelector} from '../../../reduxts/hooks'
+import {fetchallStudentdata} from '../../../reduxts/Slices/studentmanagementslice/getallstudent'
+import {Studentdata} from '../../../reduxts/Slices/studentmanagementslice/getstudent'
+import {blockStudent} from '../../../reduxts/Slices/studentmanagementslice/blockStudent'
+import {unblockStudent} from '../../../reduxts/Slices/studentmanagementslice/unblockstudentslice'
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -50,25 +57,29 @@ function stableSort<T>(
   array: readonly T[],
   comparator: (a: T, b: T) => number
 ) {
-  const stabilizedThis = array.map((el, index) => [el, index] as [T, number]);
-  stabilizedThis.sort((a, b) => {
+  const stabilizedThis = array?.map((el, index) => [el, index] as [T, number]);
+  stabilizedThis && stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0]);
     if (order !== 0) {
       return order;
     }
     return a[1] - b[1];
   });
-  return stabilizedThis.map((el) => el[0]);
+  return stabilizedThis?.map((el) => el[0]);
 }
 
 export default function CustomizedTables(props: any) {
   const router = useRouter();
+  const dispatch = useAppDispatch();
   //console.log(props.actionData, "+++++ rows");
   const [order, setOrder] = useState<Order>("asc");
   const [orderBy, setOrderBy] = useState<string | number>("calories");
   const [selected, setSelected] = useState<readonly string[]>([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [isBloked, setIsBloked] = useState(false);
+  const [blockId, setBlockId] = useState('')
+  const [rowIndex, setRowIndex] = useState<number>(0)
   const [isToggled, setIsToggled] = useState(false);
 
   var rows = props.rows;
@@ -78,7 +89,7 @@ export default function CustomizedTables(props: any) {
     props.headCells.length > 0 &&
     props.headCells.map((item: { id: number }) => item.id);
   // Filter out the properties that don't exist in arrayB
-  rows = rows.map((item: any) => {
+  rows = rows && rows.length> 0 && rows.map((item: any) => {
     let filteredItem: any = {};
     allowedKeys.forEach((key: any) => {
       if (item.hasOwnProperty(key)) {
@@ -113,12 +124,14 @@ export default function CustomizedTables(props: any) {
     type: string,
     designation: string
   ) => {
-    // console.log(
-    //   row, 'row',
-    //   type, "full path",
-    //   `${actionDataItem.path}/${row[actionDataItem.params]}`
-    // );
+    console.log(
+      row, 'row',
+      actionDataItem.name,
+      type, "full path",
+      `${actionDataItem.path}/${row[actionDataItem.params]}`
+    );
     console.log(row, "++++++++++++");
+    setBlockId(row.id)
     if (type == "toggle") {
       rows = rows.map((item: any, index: Number) => {
         if (item.name == row.name) {
@@ -128,7 +141,14 @@ export default function CustomizedTables(props: any) {
             status: row.status == "Active" ? "In-Active" : "Active",
           };
         }
-
+        else if (type !== "toggle") {
+          rows = rows.map((item: any, index: number) => {
+            if (item.name == row.name) {
+              // update the status to "In-Active"
+             setRowIndex(index)
+            }
+          })
+        }
         // if(row.status && item.name == row.name){
         //   // return{
         //   //   ...item,
@@ -142,6 +162,7 @@ export default function CustomizedTables(props: any) {
         // For other items, return them unchanged
         return item;
       });
+      
     }
 
     // Dynamic Routing on details pages
@@ -150,6 +171,35 @@ export default function CustomizedTables(props: any) {
 
       router.push(`/dashboard/student_profile_management/${queryString}`);
     }
+    if(type == "button" && designation == "block"){
+      const userId = {
+        user_id: row.id
+      }
+      if(actionDataItem.name === 'block'){
+        const actionToDispatch = row.isActive ? unblockStudent : blockStudent;
+ 
+         dispatch(actionToDispatch(userId)).then((response: any) => {
+          console.log(response.payload, "response block student:");
+    
+          if (response.payload.status == true) {
+    
+            console.log("student blocked / unblocked");
+            dispatch(fetchallStudentdata());
+            //router.push("/dashboard");
+          } else {
+            console.log("error in student blocked / unblocked");
+          }
+        });
+    };
+        
+        setIsBloked(!isBloked)
+        console.log(isBloked)
+        
+      }
+      // else{
+      //   setIsBloked(false)
+      // }
+    
     if (type == "button" && designation == "teacher") {
       const queryString = encodeURIComponent(JSON.stringify(row));
 
@@ -174,7 +224,7 @@ export default function CustomizedTables(props: any) {
 
     if (type == "button" && designation == "editblog") {
       const queryString = encodeURIComponent(JSON.stringify(row));
-
+      // const id = row.id
       router.push(`/dashboard/blog_module_management/edit/${queryString}`);
     }
 
@@ -226,7 +276,7 @@ export default function CustomizedTables(props: any) {
 
   const visibleRows = useMemo(
     () =>
-      stableSort(rows, getComparator(order, orderBy)).slice(
+      stableSort(rows, getComparator(order, orderBy))?.slice(
         page * rowsPerPage,
         page * rowsPerPage + rowsPerPage
       ),
@@ -306,6 +356,21 @@ export default function CustomizedTables(props: any) {
     },
   });
 
+  const unblocked = () => ({
+    margin: "10px 0",
+    padding: "5px 15px",
+    backgroundColor: "#E6E6FA!important",
+    color: "#EE82EE",
+    border: "none",
+    fontSize: "13px",
+    textTransform: "capitalize",
+    "&:hover": {
+      backgroundColor: "#edc627!important",
+      border: "none",
+      color: "#fff",
+    },
+  });
+
   const checkicon = () => ({
     margin: "10px 0",
     padding: "5px 15px",
@@ -333,14 +398,15 @@ export default function CustomizedTables(props: any) {
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={rows.length}
+              rowCount={rows?.length}
+              
               headCells={props.headCells}
               actionDataFlag={props.actionData && props.actionData.length > 0}
             />
             {/* header section end*/}
 
             <TableBody>
-              {visibleRows.map((row: any, index) => {
+              {visibleRows?.map((row: any, index) => {
                 const isItemSelected = isSelected(row.name);
                 const labelId = `enhanced-table-checkbox-${index}`;
                 return (
@@ -364,7 +430,16 @@ export default function CustomizedTables(props: any) {
                       />
                     </TableCell> */}
                     {Object.keys(row).map((keys: any, objIndex) =>
-                      objIndex == 0 ? (
+                      keys=== "id" ?   
+                      <TableCell
+                      // align="right"
+                      // key={`objIndex-${objIndex}`}
+                      // onClick={(event) => handleClick(event, row.name)}
+                      sx={{width:0}}
+                    >
+                      
+                      {/* {row[keys]} */}
+                    </TableCell> : objIndex == 0 ? (
                         <TableCell
                           key={`objIndex-${objIndex}`}
                           component="th"
@@ -420,7 +495,7 @@ export default function CustomizedTables(props: any) {
                                 sx={
                                   actionDataItem.name == "details"
                                     ? details
-                                    : blocked
+                                    : actionDataItem.name === 'block' && row.isActive == true ? blocked : unblocked
                                 }
                                 variant="outlined"
                                 onClick={() =>
@@ -438,7 +513,7 @@ export default function CustomizedTables(props: any) {
                                 //   setSelected(!selected);
                                 // }}
                               >
-                                {actionDataItem.name}
+                                {actionDataItem.name === 'block' && row.isActive == true ? "Block" : actionDataItem.name === 'block' && row.isActive == false ? "Unblock" : actionDataItem.name}
                               </Button>
                             )}
                           </TableCell>
@@ -456,7 +531,7 @@ export default function CustomizedTables(props: any) {
         <TablePagination
           rowsPerPageOptions={props.rowsPerPageOptions}
           component="div"
-          count={rows.length}
+          count={rows?.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}

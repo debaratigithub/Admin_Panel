@@ -6,9 +6,32 @@ import CustomizedTables from "@/app/components/table/Table";
 import EnhancedTableToolbar from "@/app/components/table/EnhancedTableToolbar";
 import Typography from "@mui/material/Typography";
 import SearchBox from "@/app/components/searchbox";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
+//Redux Toolkit
+import { RootState} from '../../../reduxts/store'
+import {useAppDispatch, useAppSelector} from '../../../reduxts/hooks'
+import {fetchallTeacherdata} from '../../../reduxts/Slices/teachermanagementslice/getallteacher'
+
+// fetchallTeacherdata
 const TeacherProfileManagemet: NextPage = () => {
+
+  const router = useRouter();
+
+  //calling all student data through redux
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    // Dispatch the fetchSomeDataAsync action when the component mounts
+    dispatch(fetchallTeacherdata());
+   
+  }, [dispatch]);
+
+  const apiuserdata = useAppSelector((state: RootState) =>state.all_teacherdata.data);
+  console.log(apiuserdata?.teacherList,"+++++++++++")
+
+
   //Ading Interface and decareling types for table header
   interface HeadCell {
     id: string;
@@ -43,6 +66,12 @@ const TeacherProfileManagemet: NextPage = () => {
       disablePadding: false,
       label: "Status Of Application",
     },
+    {
+      id: "id",
+      numeric: false,
+      disablePadding: false,
+      label: "",
+    },
   ];
 
   //Ading Interface and decareling types for table rows
@@ -51,46 +80,49 @@ const TeacherProfileManagemet: NextPage = () => {
     email: string;
     phone: number;
     status: string;
+    id:string
   }
 
-  const rows: Row[] = [
-    {
-      name: "Debarati Patwari",
-      email: "deba@gmail.com",
-      phone: 7875678987,
-      status: "Active",
-    },
-    {
-      name: "Himadri Bar",
-      email: "him@gmail.com",
-      phone: 6875678787,
-      status: "In-Active",
-    },
-    {
-      name: "Srinath Laha",
-      email: "srinath@gmail.com",
-      phone: 3875678987,
-      status: "Active",
-    },
-    {
-      name: "Sohini Pal",
-      email: "sohini@gmail.com",
-      phone: 9875678987,
-      status: "Active",
-    },
-    {
-      name: "Arpita Ghosh",
-      email: "arpita@gmail.com",
-      phone: 3875678987,
-      status: "In-Active",
-    },
-    {
-      name: "Sapta Singha",
-      email: "sapta@gmail.com",
-      phone: 1875678987,
-      status: "Active",
-    },
-  ];
+  // const rows: Row[] = [
+  //   {
+  //     name: "Debarati Patwari",
+  //     email: "deba@gmail.com",
+  //     phone: 7875678987,
+  //     status: "Active",
+  //   },
+  //   {
+  //     name: "Himadri Bar",
+  //     email: "him@gmail.com",
+  //     phone: 6875678787,
+  //     status: "In-Active",
+  //   },
+  //   {
+  //     name: "Srinath Laha",
+  //     email: "srinath@gmail.com",
+  //     phone: 3875678987,
+  //     status: "Active",
+  //   },
+  //   {
+  //     name: "Sohini Pal",
+  //     email: "sohini@gmail.com",
+  //     phone: 9875678987,
+  //     status: "Active",
+  //   },
+  //   {
+  //     name: "Arpita Ghosh",
+  //     email: "arpita@gmail.com",
+  //     phone: 3875678987,
+  //     status: "In-Active",
+  //   },
+  //   {
+  //     name: "Sapta Singha",
+  //     email: "sapta@gmail.com",
+  //     phone: 1875678987,
+  //     status: "Active",
+  //   },
+  // ];
+
+  const rows: Row[] =  apiuserdata?.teacherList
 
   //For Action section
 

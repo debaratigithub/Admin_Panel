@@ -19,6 +19,8 @@ import { useRouter } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "../../../reduxts/hooks";
 import { loginData } from "../../../reduxts/Slices/authslice/loginslice";
 
+import Cookies from 'js-cookie';
+
 interface FormData {
   email: string;
   password: string;
@@ -43,7 +45,9 @@ const Login: React.FC = () => {
       console.log(response.payload, "response from login component");
 
       if (response.payload.status == true) {
+
         console.log("routing is done");
+       Cookies.set("loggedin","true");
         router.push("/dashboard");
       } else {
         console.log("routing is not done");

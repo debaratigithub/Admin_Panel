@@ -1,4 +1,5 @@
 'use client'
+import { fetchadminlogin } from '@/services/api';
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { useRouter } from 'next/navigation';
 import { toast } from "react-toastify";
@@ -18,17 +19,19 @@ interface DataState {
 
 export const loginData = createAsyncThunk<FormData, FormData>('admin/loginData', async (data) => {
  //  const router = useRouter();
-  const response = await fetch('https://nodeserver.mydevfactory.com:6014/api/auth/login', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data),
-  });
-  const responseData = await response.json();
+  // const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}api/auth/login`, {
+  //   method: 'POST',
+  //   headers: {
+  //     'Content-Type': 'application/json',
+  //   },
+  //   body: JSON.stringify(data),
+  // });
+  //const responseData = await response.json();
+  const responseData = await fetchadminlogin(data);
   if(responseData.status==true){
     toast.success(responseData.message);
-    // localStorage.setItem("Status", responseData.status)
+     localStorage.setItem("access_token_key", responseData.tokens.access.token)
+     localStorage.setItem("referess_token_key", responseData.tokens.refresh.token)
     
   }
   else{

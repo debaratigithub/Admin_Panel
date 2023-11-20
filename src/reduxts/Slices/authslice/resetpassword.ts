@@ -1,4 +1,5 @@
 
+import { fetchadminResetpass } from '@/services/api';
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 //import { useRouter } from 'next/navigation';
 import { toast } from "react-toastify";
@@ -10,22 +11,23 @@ interface FormData {
 }
 
 interface DataState {
-  loginData: FormData | null;
+  resetpassData: FormData | null;
   loading: boolean;
   error: string | null;
 }
 
 export const resetPassword = createAsyncThunk<FormData, FormData>('admin/resetpassword', async (data) => {
     //const router = useRouter();
-  const response = await fetch('https://nodeserver.mydevfactory.com:6014/api/auth/reset-password', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data),
-  });
-  const responseData = await response.json();
-  
+  // const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}api/auth/reset-password`, {
+  //   method: 'POST',
+  //   headers: {
+  //     'Content-Type': 'application/json',
+  //   },
+  //   body: JSON.stringify(data),
+  // });
+  // const responseData = await response.json();
+
+   const responseData = await fetchadminResetpass(data);
   if(responseData.status==true){
     toast.success(responseData.message);
     // localStorage.setItem("Status", responseData.status)
@@ -42,7 +44,7 @@ export const resetPassword = createAsyncThunk<FormData, FormData>('admin/resetpa
 });
 
 const initialState: DataState = {
-  loginData: null,
+  resetpassData: null,
   loading: false,
   error: null,
 };
@@ -60,7 +62,7 @@ const resetPasswordSlice = createSlice({
         
         console.log("reducer from admin login slice example", action);    
         state.loading = false;
-            state.loginData = action.payload;
+            state.resetpassData = action.payload;
            
           }).addCase(resetPassword.rejected,(state, action)=>{
             state.loading = false;

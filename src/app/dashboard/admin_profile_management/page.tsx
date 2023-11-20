@@ -39,6 +39,12 @@ import PersonPinIcon from '@mui/icons-material/PersonPin';
 import profileImg from '../../../image/profile.jpg'
 import Divider from '@mui/material/Divider';
 import { useState } from "react";
+import Changepassword from "./changepassword/page";
+
+
+//Redux Toolkit
+import { useAppDispatch, useAppSelector } from "../../../reduxts/hooks";
+import { changePasswordData } from "../../../reduxts/Slices/authslice/changepasswordslice";
 
 interface TabPanelProps {
   children: React.ReactNode;
@@ -46,9 +52,24 @@ interface TabPanelProps {
   value: number;
 }
 
+interface FormData {
+  password: string;
+  newPassword: string;
+  confirmPassword: string;
+}
+
 
 const AdminprofileManagemet: NextPage = () => {
   const router = useRouter();
+  
+  const dispatch = useAppDispatch();
+
+  const [formData, setFormData] = useState<FormData>({
+    password: "",
+    newPassword: "",
+    confirmPassword: "",
+  });
+
   const [uploadedImage, setUploadedImage] = React.useState<string | null>(null);
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -147,14 +168,31 @@ const AdminprofileManagemet: NextPage = () => {
         setOpen(false);
       };
 
+
+      //change passsword
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-        oldpassword: data.get('oldpassword'),
-      newpassword: data.get('newpassword'),
+
+    console.log("clicked",formData);
+
+    dispatch(changePasswordData(formData)).then((response: any) => {
+      console.log(response.payload, "response from login component");
+
+      if (response.payload.status == true) {
+
+        console.log("routing is done");
+       
+        //router.push("/dashboard");
+      } else {
+        console.log("routing is not done");
+      }
     });
-    setOpen(true);
+    // const data = new FormData(event.currentTarget);
+    // console.log({
+    //     oldpassword: data.get('oldpassword'),
+    //   newpassword: data.get('newpassword'),
+    // });
+    // setOpen(true);
   };
 
   const activetab  = () => ({
@@ -409,7 +447,7 @@ const AdminprofileManagemet: NextPage = () => {
 
 
 
-
+{/* <Changepassword/> */}
 
       <Card sx={{width: '450px', margin: '0 auto', border: '1px solid #E5E4E2'}}>
         <CssBaseline />
@@ -428,18 +466,9 @@ const AdminprofileManagemet: NextPage = () => {
           <Typography component="h1" variant="h5">
             Change Password
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1, px:4 }}>
-            {/* <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              autoFocus
-            /> */}
-            <TextField
+           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1, px:4 }}>
+          
+             <TextField
               margin="normal"
               required
               fullWidth
@@ -448,6 +477,10 @@ const AdminprofileManagemet: NextPage = () => {
               type="password"
               id="oldpassword"
               autoComplete="old-password"
+              value={formData.password}
+                onChange={(e) =>
+                  setFormData({ ...formData, password: e.target.value })
+                }
             />
             <TextField
               margin="normal"
@@ -458,6 +491,25 @@ const AdminprofileManagemet: NextPage = () => {
               type="password"
               id="newpassword"
               autoComplete="new-password"
+              value={formData.newPassword}
+                onChange={(e) =>
+                  setFormData({ ...formData, newPassword: e.target.value })
+                }
+            />
+
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="conpassword"
+              label="Confirm Password"
+              type="password"
+              id="conpassword"
+              autoComplete="con-password"
+              value={formData.confirmPassword}
+                onChange={(e) =>
+                  setFormData({ ...formData, confirmPassword: e.target.value })
+                }
             />
            
            <Stack spacing={2} sx={{mt:5}}>
@@ -477,7 +529,9 @@ const AdminprofileManagemet: NextPage = () => {
       )}
             </Stack>
            
-          </Box>
+          </Box> 
+
+          
         </Box>
         </Card>
        

@@ -1,21 +1,24 @@
-import { fetchadminForgetpass } from "@/services/api";
+import { addCms } from "@/services/api";
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 //import { useRouter } from 'next/navigation';
 import { toast } from "react-toastify";
 
+
+
 interface FormData {
-  email: string;
-  role: string;
+    name: string;
+    title: string;
+    content: string;
 }
 
 interface DataState {
-  forgetpassData: FormData | null;
+  data: FormData | null;
   loading: boolean;
   error: string | null;
 }
 
-export const forgotPasswordData = createAsyncThunk<FormData, FormData>(
-  "admin/ForgotPassword",
+export const addCmsData = createAsyncThunk<FormData, FormData>(
+  "api/addCms",
   async (data) => {
    
     // const response = await fetch(
@@ -29,11 +32,11 @@ export const forgotPasswordData = createAsyncThunk<FormData, FormData>(
     //   }
     // );
     // const responseData = await response.json();
-    const responseData = await fetchadminForgetpass(data);
+    const responseData = await addCms(data);
 
     if(responseData.status==true){
       toast.success(responseData.message);
-     localStorage.setItem("AdminEmail", responseData.email)
+     //localStorage.setItem("AdminEmail", responseData.email)
       
     }
     else{
@@ -43,41 +46,41 @@ export const forgotPasswordData = createAsyncThunk<FormData, FormData>(
 
    
     //router.push("/dashboard");
-    console.log(responseData, "Data from forget password post response");
+    console.log(responseData, "Add Cms Data");
 
     return responseData;
   }
 );
 
 const initialState: DataState = {
-  forgetpassData: null,
+  data: null,
   loading: false,
   error: null,
 };
 
-const forgotpasswordSlice = createSlice({
-  name: "adminforgetpassword",
+const addCmsSlice = createSlice({
+  name: "addcmsnew",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(forgotPasswordData.pending, (state) => {
+      .addCase(addCmsData.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
       .addCase(
-        forgotPasswordData.fulfilled,
+        addCmsData.fulfilled,
         (state, action: PayloadAction<FormData>) => {
           //console.log("reducer from forgot pass slice example", action);
           state.loading = false;
-          state.forgetpassData = action.payload;
+          state.data = action.payload;
         }
       )
-      .addCase(forgotPasswordData.rejected, (state, action) => {
+      .addCase(addCmsData.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message || "An error occurred.";
       });
   },
 });
 
-export default forgotpasswordSlice.reducer;
+export default addCmsSlice.reducer;

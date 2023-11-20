@@ -1,11 +1,12 @@
-import { fetchadminForgetpass } from "@/services/api";
+import { fetchadminChangepass, fetchadminForgetpass } from "@/services/api";
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 //import { useRouter } from 'next/navigation';
 import { toast } from "react-toastify";
 
 interface FormData {
-  email: string;
-  role: string;
+  password: string;
+  newPassword: string;
+  confirmPassword: string;
 }
 
 interface DataState {
@@ -14,8 +15,8 @@ interface DataState {
   error: string | null;
 }
 
-export const forgotPasswordData = createAsyncThunk<FormData, FormData>(
-  "admin/ForgotPassword",
+export const changePasswordData = createAsyncThunk<FormData, FormData>(
+  "admin/ChangePassword",
   async (data) => {
    
     // const response = await fetch(
@@ -29,11 +30,11 @@ export const forgotPasswordData = createAsyncThunk<FormData, FormData>(
     //   }
     // );
     // const responseData = await response.json();
-    const responseData = await fetchadminForgetpass(data);
+    const responseData = await fetchadminChangepass(data);
 
     if(responseData.status==true){
       toast.success(responseData.message);
-     localStorage.setItem("AdminEmail", responseData.email)
+     //localStorage.setItem("AdminEmail", responseData.email)
       
     }
     else{
@@ -55,29 +56,29 @@ const initialState: DataState = {
   error: null,
 };
 
-const forgotpasswordSlice = createSlice({
-  name: "adminforgetpassword",
+const changepasswordSlice = createSlice({
+  name: "adminchangepassword",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(forgotPasswordData.pending, (state) => {
+      .addCase(changePasswordData.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
       .addCase(
-        forgotPasswordData.fulfilled,
+        changePasswordData.fulfilled,
         (state, action: PayloadAction<FormData>) => {
           //console.log("reducer from forgot pass slice example", action);
           state.loading = false;
           state.forgetpassData = action.payload;
         }
       )
-      .addCase(forgotPasswordData.rejected, (state, action) => {
+      .addCase(changePasswordData.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message || "An error occurred.";
       });
   },
 });
 
-export default forgotpasswordSlice.reducer;
+export default changepasswordSlice.reducer;
